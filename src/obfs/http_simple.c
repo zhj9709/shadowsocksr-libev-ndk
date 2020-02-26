@@ -134,10 +134,7 @@ int http_simple_client_encode(obfs *self, char **pencryptdata, int datalength, s
         }
     }
     host_num = (int)(xorshift128plus() % (uint64_t)host_num);
-    if (self->server.port == 80)
-        sprintf(hostport, "%s", phost[host_num]);
-    else
-        sprintf(hostport, "%s", phost[host_num], self->server.port);
+    sprintf(hostport, "%s", phost[host_num]);
     if (body_buffer) {
         sprintf(out_buffer,
             "GET http://%s/%s HTTP/1.1\r\n"
@@ -278,10 +275,7 @@ int http_post_client_encode(obfs *self, char **pencryptdata, int datalength, siz
         }
     }
     host_num = (int)(xorshift128plus() % (uint64_t)host_num);
-    if (self->server.port == 80)
-        snprintf(hostport, sizeof(hostport), "%s", phost[host_num]);
-    else
-        snprintf(hostport, sizeof(hostport), "%s", phost[host_num], self->server.port);
+    snprintf(hostport, sizeof(hostport), "%s", phost[host_num]);
     if (body_buffer) {
         snprintf(out_buffer, 2048,
             "POST http://%s/%s HTTP/1.1\r\n"
