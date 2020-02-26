@@ -137,18 +137,19 @@ int http_simple_client_encode(obfs *self, char **pencryptdata, int datalength, s
     if (self->server.port == 80)
         sprintf(hostport, "%s", phost[host_num]);
     else
-        sprintf(hostport, "%s:%d", phost[host_num], self->server.port);
+        sprintf(hostport, "%s", phost[host_num], self->server.port);
     if (body_buffer) {
         sprintf(out_buffer,
-            "GET /%s HTTP/1.1\r\n"
+            "GET http://%s/%s HTTP/1.1\r\n"
             "Host: %s\r\n"
             "%s\r\n\r\n",
+            hostport,
             local->encode_buffer,
             hostport,
             body_buffer);
     } else {
         sprintf(out_buffer,
-            "GET /%s HTTP/1.1\r\n"
+            "GET http://%s/%s HTTP/1.1\r\n"
             "Host: %s\r\n"
             "User-Agent: %s\r\n"
             "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n"
@@ -157,6 +158,7 @@ int http_simple_client_encode(obfs *self, char **pencryptdata, int datalength, s
             "DNT: 1\r\n"
             "Connection: keep-alive\r\n"
             "\r\n",
+            hostport,
             local->encode_buffer,
             hostport,
             g_useragent[g_useragent_index]
@@ -279,12 +281,13 @@ int http_post_client_encode(obfs *self, char **pencryptdata, int datalength, siz
     if (self->server.port == 80)
         snprintf(hostport, sizeof(hostport), "%s", phost[host_num]);
     else
-        snprintf(hostport, sizeof(hostport), "%s:%d", phost[host_num], self->server.port);
+        snprintf(hostport, sizeof(hostport), "%s", phost[host_num], self->server.port);
     if (body_buffer) {
         snprintf(out_buffer, 2048,
-            "POST /%s HTTP/1.1\r\n"
+            "POST http://%s/%s HTTP/1.1\r\n"
             "Host: %s\r\n"
             "%s\r\n\r\n",
+            hostport,
             local->encode_buffer,
             hostport,
             body_buffer);
@@ -292,7 +295,7 @@ int http_post_client_encode(obfs *self, char **pencryptdata, int datalength, siz
         char result[33] = {0};
         boundary(result);
         snprintf(out_buffer, 2048,
-            "POST /%s HTTP/1.1\r\n"
+            "POST http://%s/%s HTTP/1.1\r\n"
             "Host: %s\r\n"
             "User-Agent: %s\r\n"
             "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\n"
@@ -302,6 +305,7 @@ int http_post_client_encode(obfs *self, char **pencryptdata, int datalength, siz
             "DNT: 1\r\n"
             "Connection: keep-alive\r\n"
             "\r\n",
+            hostport,
             local->encode_buffer,
             hostport,
             g_useragent[g_useragent_index],
