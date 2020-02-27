@@ -88,6 +88,7 @@ int auth_aes128_sha1_get_overhead(obfs *self) {
 }
 
 void auth_simple_dispose(obfs *self) {
+    if (self == NULL) return;
     auth_simple_local_data *local = (auth_simple_local_data*)self->l_data;
     if (local->recv_buffer != NULL) {
         free(local->recv_buffer);

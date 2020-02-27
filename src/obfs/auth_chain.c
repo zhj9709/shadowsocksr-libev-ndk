@@ -116,6 +116,7 @@ int auth_chain_a_get_overhead(obfs *self) {
 }
 
 void auth_chain_a_dispose(obfs *self) {
+    if (self == NULL) return;
     auth_chain_local_data *local = (auth_chain_local_data*)self->l_data;
     if (local->recv_buffer != NULL) {
         free(local->recv_buffer);
