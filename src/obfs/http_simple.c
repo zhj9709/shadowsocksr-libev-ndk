@@ -47,6 +47,8 @@ obfs * http_simple_new_obfs() {
 }
 
 void http_simple_dispose(obfs *self) {
+    if (self == NULL)
+        return;
     http_simple_local_data *local = (http_simple_local_data*)self->l_data;
     if (local->encode_buffer != NULL) {
         free(local->encode_buffer);
