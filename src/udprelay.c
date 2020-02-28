@@ -105,7 +105,6 @@ static remote_ctx_t *new_remote(int fd, server_ctx_t *server_ctx);
 extern int log_tx_rx;
 extern uint64_t tx;
 extern uint64_t rx;
-extern int vpn;
 #endif
 
 extern int verbose;
@@ -1182,16 +1181,6 @@ server_recv_cb(EV_P_ ev_io *w, int revents)
         if (server_ctx->iface) {
             if (setinterface(remotefd, server_ctx->iface) == -1)
                 ERROR("setinterface");
-        }
-#endif
-
-#ifdef ANDROID
-        if (vpn) {
-            if (protect_socket(remotefd) == -1) {
-                ERROR("protect_socket");
-                close(remotefd);
-                goto CLEAN_UP;
-            }
         }
 #endif
 
